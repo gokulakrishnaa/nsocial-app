@@ -28,4 +28,16 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
+//Get Conversation that includes two Users
+router.get("/find/:firstUserId/:secondUserId", async (req, res) => {
+  try {
+    const conversation = await Conversation.findOne({
+      members: { $all: [req.params.firstUserId, req.params.secondUserId] },
+    });
+    res.status(200).send(conversation);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 export const conversationRouter = router;
